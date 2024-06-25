@@ -1,17 +1,13 @@
-var findContentChildren = function(g, s) {
-    let answer = 0;
-    let obj = {};
+// 2024.06.25
+// https://leetcode.com/problems/assign-cookies/
 
-    for(let i = 0; i < s.length; i++){
-        obj[s[i]] = (obj[s[i]] || 0 ) + 1;
-    }
-    console.log(obj)
-    for(let i = 0; i < g.length; i++){
-        if(!!obj[g[i]]){
-            answer++;
-            obj[g[i]] = obj[g[i]] - 1;
-        }
-    }
-
-    return answer;
+var findContentChildren = function (g, s) {
+  g.sort((a, b) => a - b);
+  s.sort((a, b) => a - b);
+  let j = 0,
+    res = 0;
+  for (let num of s) {
+    if (num >= g[j]) res++, j++;
+  }
+  return res;
 };
