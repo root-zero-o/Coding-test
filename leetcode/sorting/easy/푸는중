@@ -1,0 +1,19 @@
+var removeDuplicates = function(nums) {
+    let c = 0;
+    let k = 0;
+    
+    for(let i = 0; i < nums.length; i++){
+        if(i - c > 1) {
+            if(nums[i] > nums[c]){
+                nums[c+2] = nums[i];
+                c+=2;
+                k = i;
+            }
+        }
+    }
+    console.log(nums)
+
+    return k;
+};
+
+// https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/?envType=study-plan-v2&envId=top-interview-150
