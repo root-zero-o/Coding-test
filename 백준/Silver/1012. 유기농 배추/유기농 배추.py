@@ -1,28 +1,42 @@
 import sys
 sys.setrecursionlimit(10000)
 
-def dfs(x, y):
-    dx = [0, 0, -1, 1]
-    dy = [1, -1, 0, 0]
+T = int(input())
+# dfs 정의
+def dfs(y, x):
+    if field[y][x] == 1 :
+        field[y][x] = 0 # 방문 기록
+        # 상하 확인
+        for _y in [1, -1]:
+            Y = _y + y
+            if(Y >= 0 and Y < h) and field[Y][x] == 1 :
+                dfs(Y, x)
+            
+         # 좌우 확인
+        for _x in [1, -1]:
+            X = _x + x
+            if(X >= 0 and X < w) and field[y][X] == 1 :
+                dfs(y, X)
+
+for _ in range(T):
+    w, h, cab = map(int, input().split())
+
+    # 필드 0으로 초기화
+    field = [[0 for _ in range(w)] for _ in range(h)]
     
-    for i in range(4):
-        nx = x + dx[i]
-        ny = y + dy[i]
-        if (0 <= nx < m) and (0 <= ny < n):
-            if field[ny][nx] == 1:
-                field[ny][nx] = 0
-                dfs(nx, ny)
-                
-for _ in range(int(sys.stdin.readline())):
-    m, n, k = map(int, sys.stdin.readline().split())
-    field = [[0 for _ in range(m)] for _ in range(n)]
-    count = 0
-    for _ in range(k):
-        x, y = map(int, sys.stdin.readline().split())
+    # 위치 좌표 표시
+    for i in range(cab):
+        x, y = map(int, input().split())
         field[y][x] = 1
-    for x in range(m):
-        for y in range(n):
-            if field[y][x] == 1:
-                dfs(x, y)
-                count += 1
-    print(count)
+    
+    
+    
+    # 카운트
+    cnt = 0
+    for i in range(h):
+        for j in range(w):
+            if field[i][j] == 1 :
+                dfs(i, j)
+                cnt+= 1
+    
+    print(cnt)
