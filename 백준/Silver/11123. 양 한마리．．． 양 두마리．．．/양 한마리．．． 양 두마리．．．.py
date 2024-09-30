@@ -1,40 +1,38 @@
-from collections import deque
 import sys
+from collections import deque
 input = sys.stdin.readline
 
-T = int(input())    
+# 입력 받기
+T = int(input())
+moves = [[0, 1], [1, 0], [0, -1], [-1, 0]]
 
 for _ in range(T):
     H, W = map(int, input().split())
-    # 이차원 배열 만들기
-    field = [['.' for _ in range(W)] for _ in range(H)]
+    field = [['.' for j in range(W)] for i in range(H)]
 
     for i in range(H):
-        str = list(input())
-        for j in range(W):
-            if str[j] == '#' :
-                field[i][j] = '#'
-    # bfs
-    cnt = 0
+        field[i] = list(input().strip())
 
     def bfs(startX, startY):
         queue = deque([[startX, startY]])
-        while queue :
-            x, y = queue.popleft()
+        
+        while queue:
+            y, x = queue.popleft()
             field[y][x] = '.'
-            move = [[1, 0], [0, -1], [-1, 0], [0, 1]]
 
-            for m in move :
-                X = m[0] + x
-                Y = m[1] + y
-                if (0 <= X < W and 0 <= Y < H) and field[Y][X] == '#':
-                    queue.append([X, Y])
-                    field[Y][X] = '.'
-    
+            for m in moves :
+                X = x + m[0]
+                Y = y + m[1]
+
+                if X < 0 or X >= W or Y < 0 or Y >= H or field[Y][X] == '.': continue
+                field[Y][X] = '.'
+                queue.append([Y, X])
+
+    cnt = 0
     for i in range(H):
         for j in range(W):
             if field[i][j] == '#':
-                bfs(j, i)
+                bfs(i, j)
                 cnt += 1
-            
+    
     print(cnt)
