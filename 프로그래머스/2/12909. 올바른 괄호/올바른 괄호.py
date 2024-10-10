@@ -1,17 +1,16 @@
+# 스택 사용해서 다시 풀기
+
 def solution(s):
-    lst = list(s)
-    left = []
-    right  = []
-    for i in range(len(lst)):
-        if lst[i] == '(':
-            left.append(i)
-        else :
-            right.append(i)
-    if len(left) != len(right):
-        return False
+    st = []
     
-    for i in range(len(left)):
-        if left[i] > right[i]:
-            return False
-            break
-    return True
+    for i in s :
+        if i == '(':
+            st.append(i)
+        else :
+            try:
+                st.pop()
+            except IndexError:
+                return False
+    
+    return len(st) == 0
+    
